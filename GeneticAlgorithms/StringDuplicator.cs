@@ -27,7 +27,7 @@ namespace GeneticAlgorithms
             Func<string, int> getFitness = child =>
                 {
                     int matches = Enumerable.Range(0, geneCount)
-                        .Count(x => child[x] == toMatch[x]);
+                        .Count(x => child[x] != toMatch[x]);
                     return matches;
                 };
             string geneSet = new String(toMatch.Distinct().ToArray());

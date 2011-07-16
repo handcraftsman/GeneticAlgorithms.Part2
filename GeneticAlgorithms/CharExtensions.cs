@@ -7,13 +7,18 @@
 //  * the terms of the MIT License.
 //  * You must not remove this notice from this software.
 //  * **********************************************************************************
+using System.Drawing;
+
 namespace GeneticAlgorithms
 {
-    internal class Program
+    public static class CharExtensions
     {
-        public static void Main()
+        public static Point ToPoint(this char gene, string geneSet, int width)
         {
-            new EightQueensSolver().Solve();
+            int index = geneSet.IndexOf(gene);
+            int row = index / width;
+            int column = index % width;
+            return new Point(row, column);
         }
     }
 }

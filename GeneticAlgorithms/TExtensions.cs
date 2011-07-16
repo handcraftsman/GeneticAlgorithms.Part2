@@ -23,5 +23,15 @@ namespace GeneticAlgorithms
                 current = next();
             }
         }
+
+        public static IEnumerable<T> GenerateFrom<T>(this T initial, Func<T, T> next)
+        {
+            var current = initial;
+            while (true)
+            {
+                yield return current;
+                current = next(current);
+            }
+        }
     }
 }

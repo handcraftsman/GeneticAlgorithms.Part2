@@ -26,18 +26,18 @@ namespace GeneticAlgorithms
         public string GetBest(int length, string geneSet, Func<string, int> getFitness, Action<int, int, string> displayChild)
         {
             int generationCount = 1;
-            var parent = GenerateSequence(length, geneSet);
-            var parentScore = getFitness(parent);
+            string parent = GenerateSequence(length, geneSet);
+            int parentScore = getFitness(parent);
             displayChild(generationCount, parentScore, parent);
-            while (parentScore != length)
+            while (parentScore > 0)
             {
-                var child = Mutate(parent, geneSet);
-                var childScore = getFitness(child);
-                if (childScore > parentScore)
+                string child = Mutate(parent, geneSet);
+                int childScore = getFitness(child);
+                if (childScore < parentScore)
                 {
                     parentScore = childScore;
                     parent = child;
-                    displayChild(generationCount, parentScore, parent);
+                    displayChild(generationCount, childScore, child);
                 }
                 generationCount++;
             }
