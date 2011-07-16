@@ -7,13 +7,21 @@
 //  * the terms of the MIT License.
 //  * You must not remove this notice from this software.
 //  * **********************************************************************************
+using System;
+using System.Collections.Generic;
+
 namespace GeneticAlgorithms
 {
-    internal class Program
+    public static class TExtensions
     {
-        public static void Main()
+        public static IEnumerable<T> Generate<T>(this T initial, Func<T> next)
         {
-            new StringDuplicator().Duplicate("Hello world!");
+            var current = initial;
+            while (true)
+            {
+                yield return current;
+                current = next();
+            }
         }
     }
 }
