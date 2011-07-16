@@ -1,4 +1,4 @@
-## 8 Queens Puzzle – Genetic Algorithms 2
+## 8 Queens Puzzle - Genetic Algorithms 2
 
 This is the C# source code for [part 2 of my series on genetic algorithms][part2].
 
