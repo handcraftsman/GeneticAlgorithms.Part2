@@ -22,10 +22,17 @@ namespace GeneticAlgorithms
         public string Duplicate(string toMatch)
         {
             var solver = new GeneticSolver();
+            int geneCount = toMatch.Length;
+            Func<string, int> getFitness = child =>
+                {
+                    int matches = Enumerable.Range(0, geneCount)
+                        .Count(x => child[x] == toMatch[x]);
+                    return matches;
+                };
             string geneSet = new String(toMatch.Distinct().ToArray());
             string result = solver.GetBest(toMatch.Length,
                                            geneSet,
-                                           toMatch);
+                                           getFitness);
             Console.WriteLine(result);
             return result;
         }
