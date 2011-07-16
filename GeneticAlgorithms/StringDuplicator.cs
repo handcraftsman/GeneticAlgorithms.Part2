@@ -34,11 +34,11 @@ namespace GeneticAlgorithms
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             Action<int, int, string> displayCurrentBest =
-                (generation, fitness, item) =>
+                (generation, fitness, genes) =>
                 Console.WriteLine("generation\t{0} fitness\t{1} {2}\telapsed: {3}",
                                   generation.ToString().PadLeft(5, ' '),
                                   fitness.ToString().PadLeft(TotalWidth(toMatch), ' '),
-                                  item,
+                                  genes,
                                   stopwatch.Elapsed);
 
             string result = solver.GetBest(toMatch.Length,

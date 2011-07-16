@@ -7,11 +7,17 @@
 //  * the terms of the MIT License.
 //  * You must not remove this notice from this software.
 //  * **********************************************************************************
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+
+using FluentAssert;
+
+using NUnit.Framework;
 
 namespace GeneticAlgorithms
 {
@@ -111,11 +117,11 @@ namespace GeneticAlgorithms
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             Action<int, int, string> displayCurrentBest =
-                (generation, fitness, item) =>
+                (generation, fitness, genes) =>
                     {
                         var board = new char?[BoardHeight,BoardWidth];
 
-                        foreach (var queenLocation in item.Select(x => x.ToPoint(GeneSet, BoardWidth)))
+                        foreach (var queenLocation in genes.Select(x => x.ToPoint(GeneSet, BoardWidth)))
                         {
                             board[queenLocation.X, queenLocation.Y] = 'Q';
                         }
@@ -125,6 +131,7 @@ namespace GeneticAlgorithms
                             for (int j = 0; j < BoardWidth; j++)
                             {
                                 Console.Write(board[i, j] ?? '.');
+                                Console.Write(' ');
                             }
                             Console.WriteLine();
                         }
@@ -138,7 +145,36 @@ namespace GeneticAlgorithms
                                                         getFitness,
                                                         displayCurrentBest);
             Console.WriteLine(result);
-            return result;
+            return getFitness(result) == 0
+                       ? new String(result.OrderBy(x => x).ToArray())
+                       : null;
+        }
+    }
+
+    [TestFixture]
+    public class EightQueensSolverTests
+    {
+        private const string KnownSolutionsFilePath = @"..\..\Data\EightQueensSolutions.txt";
+
+        [Test]
+        public void Should_find_a_valid_solution()
+        {
+            var validSolitionKeys = File.ReadAllLines(KnownSolutionsFilePath)
+                .Where(x => x.StartsWith(">"))
+                .Select(x => x.Substring(1))
+                .Distinct()
+                .ToList();
+
+            Console.WriteLine("There are " + validSolitionKeys.Count + " known solutions");
+
+            var eightQueensSolver = new EightQueensSolver();
+            string result = eightQueensSolver.Solve();
+            while (result == null)
+            {
+                result = eightQueensSolver.Solve();
+            }
+            validSolitionKeys.Contains(result)
+                .ShouldBeTrue(result + " is not in the set of known solutions");
         }
     }
 }
