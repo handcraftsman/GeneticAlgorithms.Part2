@@ -1,0 +1,10 @@
+bin
+obj
+_ReSharper.*
+*.suo
+*.user
+dist
+TestResult.xml
+*.cache
+*.ReSharper
+codestyle.xml
