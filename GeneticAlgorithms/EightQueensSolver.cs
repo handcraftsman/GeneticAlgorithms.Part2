@@ -104,6 +104,7 @@ namespace GeneticAlgorithms
                 {
                     var queenLocations = new HashSet<Point>(child.Select(x => x.ToPoint(GeneSet, BoardWidth)));
                     int fitness = queenLocations.Sum(x => CountQueensAttacked(GetAttackablePoints(x), queenLocations));
+                    fitness += 10000 * (GeneCount - queenLocations.Count);
                     return fitness;
                 };
 
