@@ -2,7 +2,7 @@
 
 This is the C# source code for [part 1 of my series on genetic algorithms][part1].
 
-In this part we build a genetic solver that can reproduce a string, e.g. "Hello world!", without direct access to the the string. It does this by calling a fitness function with a guess.  The fitness function returns an integer value representing how many of the characters in the string are correct, but not which ones - somewhat like the game Hang Man.
+In this part we build a genetic solver that can reproduce a string, e.g. "Hello world!", without direct access to the string. It does this by calling a fitness function with a guess.  The fitness function returns an integer value representing how many of the characters in the string are correct, but not which ones - somewhat like the game Hang Man.
 
 Sample run:
 
