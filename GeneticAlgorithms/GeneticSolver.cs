@@ -23,19 +23,23 @@ namespace GeneticAlgorithms
             return new String(initial.Generate(next).Take(length).ToArray());
         }
 
-        public string GetBest(int length, string geneSet, Func<string, int> getFitness)
+        public string GetBest(int length, string geneSet, Func<string, int> getFitness, Action<int, int, string> displayChild)
         {
-            string parent = GenerateSequence(length, geneSet);
-            int parentScore = getFitness(parent);
+            int generationCount = 1;
+            var parent = GenerateSequence(length, geneSet);
+            var parentScore = getFitness(parent);
+            displayChild(generationCount, parentScore, parent);
             while (parentScore != length)
             {
-                string child = Mutate(parent, geneSet);
-                int childScore = getFitness(child);
+                var child = Mutate(parent, geneSet);
+                var childScore = getFitness(child);
                 if (childScore > parentScore)
                 {
                     parentScore = childScore;
                     parent = child;
+                    displayChild(generationCount, parentScore, parent);
                 }
+                generationCount++;
             }
             return parent;
         }

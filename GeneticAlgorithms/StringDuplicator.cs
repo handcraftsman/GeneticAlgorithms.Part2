@@ -9,6 +9,7 @@
 //  * **********************************************************************************
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 using FluentAssert;
@@ -30,11 +31,27 @@ namespace GeneticAlgorithms
                     return matches;
                 };
             string geneSet = new String(toMatch.Distinct().ToArray());
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            Action<int, int, string> displayCurrentBest =
+                (generation, fitness, item) =>
+                Console.WriteLine("generation\t{0} fitness\t{1} {2}\telapsed: {3}",
+                                  generation.ToString().PadLeft(5, ' '),
+                                  fitness.ToString().PadLeft(TotalWidth(toMatch), ' '),
+                                  item,
+                                  stopwatch.Elapsed);
+
             string result = solver.GetBest(toMatch.Length,
                                            geneSet,
-                                           getFitness);
+                                           getFitness,
+                                           displayCurrentBest);
             Console.WriteLine(result);
             return result;
+        }
+
+        private static int TotalWidth(string expected)
+        {
+            return (int)Math.Floor(Math.Log10(Math.Abs(expected.Length != 0 ? expected.Length : 1))) + 1;
         }
     }
 
